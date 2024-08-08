@@ -6,7 +6,7 @@ import WelcomeMessage from './components/WelcomeMessage
 import Header from './Header'
 import MainContent from './MainContent'
 import Footer from './Footer'
-import UserProfile from './UserProfile
+import UserProfile from './UserProfile'
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
     <MainContent />
      <Footer />
       <WelcomeMessage />
+      <UserProfile />
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
