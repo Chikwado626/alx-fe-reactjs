@@ -1,6 +1,6 @@
 import './App.css';
-import React from 'react';
-import UserContext from './components/UserContext.jsx';
+import { useState } from 'react';
+import UserContext from './components/UserContext.js';
 import ProfilePage from './components/ProfilePage.jsx';
 
 function App() {
