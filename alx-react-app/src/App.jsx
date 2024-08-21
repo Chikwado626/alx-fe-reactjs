@@ -7,7 +7,7 @@ import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
 import MainContent from './components/MainContent.jsx'
 import UserProfile from './components/UserProfile.jsx'
-import Counter from '../../alx-react-app-new/src/components/Counter.jsx'
+import Counter from './components/Counter.jsx'
 function App() {
   const [count, setCount] = useState(0)
 
