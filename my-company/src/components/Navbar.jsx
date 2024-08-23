@@ -12,16 +12,16 @@ function Navbar() {
         justifyContent: "space-between",
       }}
     >
-      <Link to="/" style={{ margin: "0 10px" }}>
+      <Link to="/" style={{ margin: "0 15px" }}>
         Home
       </Link>
-      <Link to="/about" style={{ margin: "0 10px" }}>
+      <Link to="/about" style={{ margin: "0 15px" }}>
         About
       </Link>
-      <Link to="/services" style={{ margin: "0 10px" }}>
+      <Link to="/services" style={{ margin: "0 15px" }}>
         Services
       </Link>
-      <Link to="/contact" style={{ margin: "0 10px" }}>
+      <Link to="/contact" style={{ margin: "0 15px" }}>
         Contact
       </Link>
     </nav>
