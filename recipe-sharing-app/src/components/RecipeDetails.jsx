@@ -1,5 +1,6 @@
  // RecipeDetails component
- import { useRecipeStore } from './recipeStore';
+ import App from './RecipeList';
+import { useRecipeStore } from './recipeStore';
  import { Link, useParams } from 'react-router-dom';
 
 const RecipeDetails = () => {
@@ -18,3 +19,4 @@ const RecipeDetails = () => {
      </div>
    );
  };
+ export default App;
