@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 
-const RecipeForm = () => {
+const AddRecipeForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     ingredients: '',
-    instructions: '',
+    steps: '',
   });
 
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
-    const { title, ingredients, instructions } = formData;
+    const { title, ingredients, steps } = formData;
     const errors = {};
     if (!title) errors.title = 'Title is required';
     if (!ingredients) errors.ingredients = 'Ingredients are required';
-    if (!instructions) errors.instructions = 'Instructions are required';
+    if (!steps) errors.steps = 'Steps are required';
     return errors;
   };
 
@@ -22,13 +22,13 @@ const RecipeForm = () => {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      // Submit the form data
+      // Process form data (e.g., send it to a server)
       console.log('Form data submitted:', formData);
       // Clear form data after submission or handle as needed
       setFormData({
         title: '',
         ingredients: '',
-        instructions: '',
+        steps: '',
       });
     } else {
       setErrors(errors);
@@ -45,7 +45,7 @@ const RecipeForm = () => {
 
   return (
     <div className="max-w-lg mx-auto p-4 bg-white rounded-lg shadow-lg mt-6">
-      <h1 className="text-2xl font-bold mb-4">Submit a New Recipe</h1>
+      <h1 className="text-2xl font-bold mb-4">Add a New Recipe</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700 font-medium mb-2">Recipe Title</label>
@@ -74,16 +74,16 @@ const RecipeForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="instructions" className="block text-gray-700 font-medium mb-2">Instructions</label>
+          <label htmlFor="steps" className="block text-gray-700 font-medium mb-2">Preparation Steps</label>
           <textarea
-            id="instructions"
-            name="instructions"
-            value={formData.instructions}
+            id="steps"
+            name="steps"
+            value={formData.steps}
             onChange={handleChange}
             rows="6"
             className="w-full p-2 border border-gray-300 rounded-md"
           />
-          {errors.instructions && <p className="text-red-500 text-sm mt-1">{errors.instructions}</p>}
+          {errors.steps && <p className="text-red-500 text-sm mt-1">{errors.steps}</p>}
         </div>
 
         <button
@@ -97,4 +97,4 @@ const RecipeForm = () => {
   );
 };
 
-export default RecipeForm;
+export default AddRecipeForm;
