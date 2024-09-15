@@ -1,110 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const AddRecipeForm = () => {
-  // State to hold form input values
-  const [formData, setFormData] = useState({
-    title: '',
-    ingredients: '',
-    steps: '',
-  });
+export default function AddRecipeForm() {
+    const [title, setTitle] = useState('');
+    const [ingredients, setIngredients] = useState('');
+    const [instructions, setInstructions] = useState('');
+    const [errors, setErrors] = useState({});
 
-  // State to hold validation errors
-  const [errors, setErrors] = useState({});
+    const validateForm = () => {
+        const newErrors = {};
+        if (!title) newErrors.title = 'Title is required';
+        if (!ingredients) newErrors.ingredients = 'Ingredients are required';
+        if (!instructions) newErrors.instructions = 'Preparation steps are required';
+        if (ingredients.split(',').length < 2) newErrors.ingredients = 'Please include at least two ingredients';
+        return newErrors;
+    };
 
-  // Function to validate form input
-  const validateForm = () => {
-    const { title, ingredients, steps } = formData;
-    const errors = {};
-    if (!title) errors.title = 'Title is required';
-    if (!ingredients) errors.ingredients = 'Ingredients are required';
-    if (!steps) errors.steps = 'Preparation steps are required';
-    return errors;
-  };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length === 0) {
+            const newRecipe = {
+                id: Date.now(), // Just a placeholder for unique ID
+                title,
+                ingredients: ingredients.split(',').map(ingredient => ingredient.trim()),
+                instructions: instructions.split('.').map(instruction => instruction.trim()),
+            };
+            console.log('New Recipe:', newRecipe);
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
-    const errors = validateForm(); // Validate form inputs
-    if (Object.keys(errors).length === 0) {
-      // If no validation errors, submit the form
-      console.log('Form data submitted:', formData);
-      // Optionally, you can reset the form or redirect the user
-      setFormData({
-        title: '',
-        ingredients: '',
-        steps: '',
-      });
-    } else {
-      // If validation errors, set errors in state
-      setErrors(errors);
-    }
-  };
+            setTitle('');
+            setIngredients('');
+            setInstructions('');
+            setErrors({});
+        } else {
+            setErrors(formErrors);
+        }
+    };
 
-  // Function to handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target; // Destructure name and value from event target
-    setFormData({
-      ...formData,
-      [name]: value, // Update formData with new value
-    });
-  };
-
-  return (
-    <div className="max-w-lg mx-auto p-4 bg-white rounded-lg shadow-lg mt-6">
-      <h1 className="text-2xl font-bold mb-4">Add a New Recipe</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Recipe Title Field */}
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700 font-medium mb-2">Recipe Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange} // Handle change events
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+    return (
+        <div className="container mx-auto size-[500px] p-4">
+            <h1 className="text-4xl text-center font-bold my-8 sm:text-2xl md:text-3xl">Add New Recipe</h1>
+            <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+                        Recipe Title
+                    </label>
+                    <input
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    {errors.title && <p className="text-red-500 text-xs italic">{errors.title}</p>}
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ingredients">
+                        Ingredients (comma separated)
+                    </label>
+                    <textarea
+                        id="ingredients"
+                        value={ingredients}
+                        onChange={(event) => setIngredients(event.target.value)}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    {errors.ingredients && <p className="text-red-500 text-xs italic">{errors.ingredients}</p>}
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="instructions">
+                        Preparation Steps (period separated)
+                    </label>
+                    <textarea
+                        id="instructions"
+                        value={instructions}
+                        onChange={(event) => setInstructions(event.target.value)}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    {errors.instructions && <p className="text-red-500 text-xs italic">{errors.instructions}</p>}
+                </div>
+                <div className="flex items-center justify-between">
+                    <button
+                        type="submit"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                        Add Recipe
+                    </button>
+                </div>
+            </form>
         </div>
-
-        {/* Ingredients Field */}
-        <div className="mb-4">
-          <label htmlFor="ingredients" className="block text-gray-700 font-medium mb-2">Ingredients</label>
-          <textarea
-            id="ingredients"
-            name="ingredients"
-            value={formData.ingredients}
-            onChange={handleChange} // Handle change events
-            rows="4"
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          {errors.ingredients && <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>}
-        </div>
-
-        {/* Preparation Steps Field */}
-        <div className="mb-4">
-          <label htmlFor="steps" className="block text-gray-700 font-medium mb-2">Preparation Steps</label>
-          <textarea
-            id="steps"
-            name="steps"
-            value={formData.steps}
-            onChange={handleChange} // Handle change events
-            rows="6"
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          {errors.steps && <p className="text-red-500 text-sm mt-1">{errors.steps}</p>}
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition"
-        >
-          Submit Recipe
-        </button>
-      </form>
-    </div>
-  );
-};
-
-export default AddRecipeForm;
+    );
+}
